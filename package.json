@@ -11,5 +11,15 @@
     "tutorial"
   ],
   "author": "Mario R. Castellanos A.",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/castebot/node-tutorial.git"
+  },
+  "dependencies": {
+    "express": "^4.13.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
