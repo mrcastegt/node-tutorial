@@ -92,6 +92,29 @@ function createNewZodiacWindow()
     });
 }
 
+function createWindowCalculadora () {
+    // Crea la ventana del navegador.
+    win = new BrowserWindow({
+      width: 800,
+      height: 600,
+      webPreferences: {
+        nodeIntegration: true
+      }
+    })
+  
+    // and load the index.html of the app.
+    win.loadFile('index.html')
+  
+  
+    // Emitido cuando la ventana es cerrada.
+    win.on('closed', () => {
+      // Elimina la referencia al objeto window, normalmente  guardarías las ventanas
+      // en un vector si tu aplicación soporta múltiples ventanas, este es el momento
+      // en el que deberías borrar el elemento correspondiente.
+      win = null
+    })
+  }
+
 ipcMain.on('zodiac:new', (event,newZodiac) => {
      console.log(newZodiac);
     mainWindow.webContents.send('zodiac:new',newZodiac)
@@ -130,26 +153,29 @@ const templateMenu = [
                 }
             }
         ]
+    },
+    {
+        label: 'Calculadora',
+        click()
+        {
+            createWindowCalculadora();
+        }
     }
     
 ];
-
-if(process.env.NODE_ENV !==  'production')
-{
-    templateMenu.push({
-        label: 'DevTools',
-        submenu:[
+templateMenu.push({
+    label: 'DevTools',
+    submenu:[
+        {
+            label: 'Muestra/Oculta Opciones Desarrollo',
+            click(item, focusedWindow)
             {
-                label: 'Muestra/Oculta Opciones Desarrollo',
-                click(item, focusedWindow)
-                {
-                    focusedWindow.toggleDevTools();
-                }
+                focusedWindow.toggleDevTools();
             }
-            ,
-            {
-                role: 'reload'
-            }
-        ]
-    })
-}
+        }
+        ,
+        {
+            role: 'reload'
+        }
+    ]
+})
